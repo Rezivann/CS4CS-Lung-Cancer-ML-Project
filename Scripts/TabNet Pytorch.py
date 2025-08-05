@@ -73,11 +73,11 @@ net = NeuralNetClassifier(
 #print(score)
 
 param_grid = {
-    'n_d': list(range(6, 10, 1)),
-    'n_a': list(range(18, 26, 1)),
-    'n_steps': list(range(1, 3, 1)),
-    'optimizer_fn': [torch.optim.Adam, torch.optim.SGD],
-    'optimizer_params': [dict(lr=2e-2), dict(lr=2e-3), dict(lr=2e-1)]
+    'n_d': list(range(8, 9, 1)),
+    'n_a': list(range(22, 23, 1)),
+    'n_steps': list(range(2, 3, 1)),
+    'optimizer_fn': [torch.optim.Adam, torch.optim.Adafactor, torch.optim.Adagrad, torch.optim.LBFGS, torch.optim.NAdam, torch.optim.Rprop],
+    'optimizer_params': [dict(lr=0.0375), dict(lr=0.035), dict(lr=0.0325)],
 
 }
 params = {
@@ -87,7 +87,9 @@ params = {
 grid = sklearn.model_selection.GridSearchCV(estimator=TabNetClassifier(n_d=8, n_a=5, n_steps=4), param_grid=param_grid, scoring='accuracy', n_jobs=-1, cv=3, verbose=1)
 #print(list(list(net.parameters())))
 #optimizer = torch.optim.Adam(TabnetCustom.parameters(), lr=0.001)
-grid_result = grid.fit(npX_train, npy_train)
+grid_result = grid.fit(npX_train, npy_train, batch_size=100, virtual_batch_size = 10)
 print("Best score: ", grid_result.best_score_)
 print("Best params: ", grid_result.best_params_)
+
+print()
 #print("Predictions:", preds)
