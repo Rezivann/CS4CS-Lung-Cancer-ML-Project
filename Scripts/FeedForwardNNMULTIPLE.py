@@ -36,8 +36,9 @@ def run(run_dir, hparams, num, i):
             nums.append(accuracy)
         else: 
             nums[num] += accuracy
-        if (i == 3):
-            average = nums[num]/4
+        if (i == 4):
+            average = nums[num]/5
+            nums[num] = average
             print(average)
             tf.summary.scalar(METRIC_ACCURACY, average, step=1)
 def train_test_model(hparams):
@@ -49,7 +50,7 @@ def train_test_model(hparams):
         tf.keras.layers.Dropout(hparams[HP_DROPOUT]),
         tf.keras.layers.Dense(hparams[HP_NUM_UNITS], activation=tf.nn.relu),
         tf.keras.layers.Dropout(hparams[HP_DROPOUT]),
-        tf.keras.layers.Dense(10, activation=tf.nn.softmax)
+        tf.keras.layers.Dense(3, activation=tf.nn.softmax)
     ])
     model.compile(
         optimizer=hparams[HP_OPTIMIZER],
@@ -71,14 +72,14 @@ def train_test_model(hparams):
     return accuracy
 
 
-for i in range(4):
+for i in range(5):
     X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = .2, shuffle=True)
     datasetX = tf.convert_to_tensor(X_train)
     datasetY = tf.convert_to_tensor(y_train)
-    HP_NUM_UNITS = hp.HParam('num_units', hp.Discrete(list(range(17,22, 1)))) #Was 17, 23, 1
-    HP_DROPOUT = hp.HParam('dropout', hp.RealInterval(0.1, 0.2))
-    HP_OPTIMIZER = hp.HParam('optimizer', hp.Discrete(['adam','sgd']))
-    HP_EPOCHS = hp.HParam('epochs', hp.Discrete(list(range(35, 41, 2)))) #Was 35, 43, 2
+    HP_NUM_UNITS = hp.HParam('num_units', hp.Discrete(list(range(17, 20, 1)))) #Was 17, 21, 1
+    HP_DROPOUT = hp.HParam('dropout', hp.RealInterval(0.0, 0.1))
+    HP_OPTIMIZER = hp.HParam('optimizer', hp.Discrete(['sgd']))
+    HP_EPOCHS = hp.HParam('epochs', hp.Discrete(list(range(37, 40, 1)))) #Was 35, 40, 1
     METRIC_ACCURACY = 'accuracy'
     if (i == 0):
         with tf.summary.create_file_writer(direct).as_default():
@@ -104,7 +105,9 @@ for i in range(4):
                     session_num += 1
 
 
-    
+
+for i in range(len(nums)):
+    print(f"Trial {i}: {nums[i]}")
 
 
 '''

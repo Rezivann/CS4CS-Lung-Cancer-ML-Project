@@ -9,31 +9,39 @@ df4 = pd.read_csv('C:\\Users\\reziv\\Downloads\\Lung_Cancer_Git\\Datasets\\Proce
 #df7.to_csv('C:\\Users\\reziv\\Downloads\\Lung_Cancer_Git\\Scripts\\Processed_Set.csv', index = False)
 print(df4.corr()['Level'].sort_values(ascending=False))
 
+
 X = df4.drop(['Level'], axis=1)
 y = df4['Level']
 
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = .2, shuffle=True)
 from sklearn.naive_bayes import GaussianNB
-mnb = GaussianNB()
-mnb.fit(X_train, y_train)
-y_prediction = mnb.predict(X_test)
 from sklearn.metrics import classification_report
-print(classification_report(y_test, y_prediction))
+accuracies = 0
+for i in range(10):
 
-print(mnb.score(X_train, y_train))
-print(mnb.score(X_test, y_test))
+    X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = .2, shuffle=True)
 
-#add in parameter
-param_grid = {
-    'var_smoothing': [0.00000001, 0.000000001, 0.00000001, 5e-9],
-    #'alpha': list(range(1, 201)),
-    #'fit_prior': [True, False]
-}
-from sklearn.model_selection import GridSearchCV
-#print(df4)
+    mnb = GaussianNB()
+    mnb.fit(X_train, y_train)
+    y_prediction = mnb.predict(X_test)
+    print(classification_report(y_test, y_prediction))
+    print(mnb.score(X_train, y_train))
+    print(mnb.score(X_test, y_test))
 
-grid_search = GridSearchCV(mnb, param_grid, cv=5, scoring = 'accuracy', n_jobs=-1)
-grid_search.fit(X_train, y_train)
-print(grid_search.best_params_)
-print(grid_search.best_score_)
+    #add in parameter
+    param_grid = {
+        'var_smoothing': [0.00000001, 0.000000001, 0.00000001, 5e-9],
+        #'alpha': list(range(1, 201)),
+        #'fit_prior': [True, False]
+    }
+    from sklearn.model_selection import GridSearchCV
+    #print(df4)
+
+    grid_search = GridSearchCV(mnb, param_grid, cv=5, scoring = 'accuracy', n_jobs=-1)
+    grid_search.fit(X_train, y_train)
+    print(grid_search.best_params_)
+    print(grid_search.best_score_)
+    accuracies += grid_search.best_score_
+
+average = accuracies/10
+print(average)

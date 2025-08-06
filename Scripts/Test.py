@@ -32,49 +32,15 @@ from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = .2, shuffle=True)
 
-
-
-datasetX = tf.convert_to_tensor(X_train)
-datasetY = tf.convert_to_tensor(y_train)
-
-
-'''
-(X_Train, X_Test)  = tf.keras.utils.split_dataset(
-    datasetX, left_size=0.8, right_size=0.2, shuffle = False, seed = None
-)
-(Y_Train, Y_Test)  = tf.keras.utils.split_dataset(
-    datasetY, left_size=0.8, right_size=0.2, shuffle = False, seed = None
-)
-'''
-
-features = np.array(X_train)
-#print(features)
-
-'''
-
-HP_NUM_UNITS = hp.HParam('num_units', hp.Discrete(list(range(16,22, 2))))
-HP_DROPOUT = hp.HParam('dropout', hp.RealInterval(0.1, 0.2))
-HP_OPTIMIZER = hp.HParam('optimizer', hp.Discrete(['adam','sgd']))
-HP_EPOCHS = hp.HParam('epochs', hp.Discrete(list(range(38, 48, 2))))
-
-
-
-METRIC_ACCURACY = 'accuracy'
-
-with tf.summary.create_file_writer(direct).as_default():
-    hp.hparams_config(
-        hparams=[HP_NUM_UNITS, HP_DROPOUT, HP_OPTIMIZER, HP_EPOCHS],
-        metrics=[hp.Metric(METRIC_ACCURACY, display_name='Accuracy')],
-    )
-'''
-
 def train_test_model():
     model = tf.keras.models.Sequential([
         tf.keras.layers.Flatten(),
-        tf.keras.layers.Dense(18, activation=tf.nn.relu),
-        tf.keras.layers.Dropout(0.1),
-        tf.keras.layers.Dense(18, activation=tf.nn.relu),
-        tf.keras.layers.Dropout(0.1),
+        tf.keras.layers.Dense(19, activation=tf.nn.relu),
+        tf.keras.layers.Dropout(0.0),
+        tf.keras.layers.Dense(19, activation=tf.nn.relu),
+        tf.keras.layers.Dropout(0.0),
+        #tf.keras.layers.Dense(19, activation=tf.nn.relu),
+        #tf.keras.layers.Dropout(0.0),
         tf.keras.layers.Dense(3, activation=tf.nn.softmax)
     ])
     model.compile(
@@ -90,17 +56,12 @@ def train_test_model():
     )
     _, accuracy = model.evaluate(X_test, y_test)
     return accuracy
-'''
-def run(run_dir):
-    with tf.summary.create_file_writer(run_dir).as_default():
-        hp.hparams(hparams)
-        accuracy = train_test_model(hparams)
-        tf.summary.scalar(METRIC_ACCURACY, accuracy, step=1)
-'''
-session_num = 1
 
+
+session_num = 1
 sum = 0
-for i in range(20):
+
+for i in range(10):
     run_name = "run-%d" % (i+1)
     print('--- Starting trial: %s' % run_name)
     X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = .2, shuffle=True)
@@ -110,7 +71,7 @@ for i in range(20):
     sum += data
     print(data)
     
-average = sum / 20
+average = sum / 10
 print(sum)
 print(average)
 '''

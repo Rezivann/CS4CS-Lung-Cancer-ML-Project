@@ -34,43 +34,6 @@ npy_val = y_val.values
 npy_test = y_test.values
 npY_evaluate = y_evaluate.values
 
-TorchX_train = torch.from_numpy(npX_train)
-Torchy_train = torch.from_numpy(npy_train)
-
-clf = TabNetClassifier()
-print(type(X_val))
-#clf.fit(npX_train, npy_train, eval_set=[(npX_val, npy_val)], max_epochs=100, eval_metric = ['accuracy'], virtual_batch_size=30)
-
-class TabnetCustom(nn.Module):
-    def __init__(self, n_d, n_a, n_steps):
-        super().__init__()
-        self.tabnet = TabNetClassifier(
-            n_d=n_d,
-            n_a=n_a,
-            n_steps=n_steps,
-            verbose=1
-        )
-    def forward(self, x):
-        return self.tabnet.predict_proba(x)
-
-
-myTabnet = TabnetCustom(n_a=3, n_d=4, n_steps=5)
-net = NeuralNetClassifier(
-    module=myTabnet,
-    module__n_d=8,
-    module__n_a=8,
-    module__n_steps=3,
-    #criterion=torch.nn.CrossEntropyLoss,
-    #optimizer=torch.optim.Adam,
-    #optimizer__lr=0.001
-    #lr=0.02,
-)
-
-#torch.compile(clf, backend="tensorrt")
-#preds = clf.predict(npX_test)
-
-#score = clf.predict_proba(npX_test)
-#print(score)
 
 param_grid = {
     'n_d': list(range(8, 9, 1)),
@@ -85,11 +48,7 @@ params = {
 }
 
 grid = sklearn.model_selection.GridSearchCV(estimator=TabNetClassifier(n_d=8, n_a=5, n_steps=4), param_grid=param_grid, scoring='accuracy', n_jobs=-1, cv=3, verbose=1)
-#print(list(list(net.parameters())))
-#optimizer = torch.optim.Adam(TabnetCustom.parameters(), lr=0.001)
+
 grid_result = grid.fit(npX_train, npy_train, batch_size=100, virtual_batch_size = 10)
 print("Best score: ", grid_result.best_score_)
 print("Best params: ", grid_result.best_params_)
-
-print()
-#print("Predictions:", preds)
