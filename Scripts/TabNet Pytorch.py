@@ -23,16 +23,16 @@ df = pd.read_csv('datasets/Processed_set.csv')
 X = df.drop(['Level'], axis=1)
 y = df['Level']
 
-X_train, X_evaluate, y_train, y_evaluate = train_test_split(X,y,test_size = .2, shuffle=True)
-X_val, X_test, y_val, y_test = train_test_split(X_evaluate, y_evaluate, test_size=.5, shuffle=True)
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = .2, shuffle=True)
+#X_val, X_test, y_val, y_test = train_test_split(X_evaluate, y_evaluate, test_size=.5, shuffle=True)
 npX_train = X_train.values
-npX_val = X_val.values
+#npX_val = X_val.values
 npX_test = X_test.values
-npX_evaluate = X_evaluate.values
+#npX_evaluate = X_evaluate.values
 npy_train = y_train.values
-npy_val = y_val.values
+#npy_val = y_val.values
 npy_test = y_test.values
-npY_evaluate = y_evaluate.values
+#npY_evaluate = y_evaluate.values
 
 
 param_grid = {
@@ -43,9 +43,7 @@ param_grid = {
     'optimizer_params': [dict(lr=0.0375), dict(lr=0.035), dict(lr=0.0325)],
 
 }
-params = {
-    'optimizer': torch.optim.Adam
-}
+
 
 grid = sklearn.model_selection.GridSearchCV(estimator=TabNetClassifier(n_d=8, n_a=5, n_steps=4), param_grid=param_grid, scoring='accuracy', n_jobs=-1, cv=3, verbose=1)
 

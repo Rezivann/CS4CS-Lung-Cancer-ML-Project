@@ -43,7 +43,7 @@ for i in range(10):
     '''
 
     clf = TabNetClassifier(n_a=22, n_d=8, n_steps=2, optimizer_fn=torch.optim.Adam, optimizer_params=dict(lr=0.0375))
-    clf.fit(npX_train, npy_train, batch_size=100, virtual_batch_size=10, max_epochs=100, eval_metric = ['accuracy'], compute_importance=True) #eval_set=[(npX_val, npy_val)]
+    clf.fit(npX_train, npy_train, batch_size=100, virtual_batch_size=10, max_epochs=200, eval_metric = ['accuracy'], compute_importance=True) #eval_set=[(npX_val, npy_val)]
     #featureimportances = clf.feature_importances_
     print(npy_test)
     preds = clf.predict(npX_test)

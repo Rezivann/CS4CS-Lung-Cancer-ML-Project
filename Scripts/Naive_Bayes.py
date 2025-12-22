@@ -44,11 +44,11 @@ for i in range(10):
     print(grid_search.best_params_)
     alpha = grid_search.best_params_["alpha"]
 
-    tnb = CategoricalNB(alpha=grid_search.best_params_["alpha"])
+    tnb = CategoricalNB(alpha=0.01)
     tnb.fit(X_train, y_train)
     preds = tnb.predict(X_test)
 
-    #accuracy = metrics.accuracy_score(y_true=y_test, y_pred=preds)
+    accuracy = metrics.accuracy_score(y_true=y_test, y_pred=preds)
     print("This was the final accuracy:", accuracy)
 
     #print(grid_search.best_score_)

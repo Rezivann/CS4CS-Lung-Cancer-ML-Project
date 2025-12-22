@@ -15,18 +15,18 @@ index = 0
 while True:
     try:
         Name = "Tab" + str(index)
-        os.makedirs("C:\\Users\\reziv\\Downloads\\Lung_Cancer_Model\\" + Name )
+        os.makedirs("C:\\Users\\reziv\\Downloads\\Lung_Cancer_Git\\Logs\\" + Name )
     except FileExistsError:
         index += 1
         continue
     break
 
 
-df = pd.read_csv('C:\\Users\\reziv\\Downloads\\Lung_Cancer_Model\\Processed_set.csv')
+df = pd.read_csv('C:\\Users\\reziv\\Downloads\\Lung_Cancer_Git\\Datasets\\Processed_set.csv')
 X = df.drop(['Level'], axis=1)
 y = df['Level']
 
-direct = 'C:\\Users\\reziv\\Downloads\\Lung_Cancer_Model\\' + Name
+direct = 'C:\\Users\\reziv\\Downloads\\Lung_Cancer_Git\\Logs\\' + Name
 
 from sklearn.model_selection import train_test_split
 
@@ -35,16 +35,16 @@ X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = .2, shuffle=
 def train_test_model():
     model = tf.keras.models.Sequential([
         tf.keras.layers.Flatten(),
-        tf.keras.layers.Dense(19, activation=tf.nn.relu),
+        tf.keras.layers.Dense(40, activation=tf.nn.relu),
         tf.keras.layers.Dropout(0.0),
-        tf.keras.layers.Dense(19, activation=tf.nn.relu),
+        tf.keras.layers.Dense(40, activation=tf.nn.relu),
         tf.keras.layers.Dropout(0.0),
-        #tf.keras.layers.Dense(19, activation=tf.nn.relu),
-        #tf.keras.layers.Dropout(0.0),
+        tf.keras.layers.Dense(40, activation=tf.nn.relu),
+        tf.keras.layers.Dropout(0.0),
         tf.keras.layers.Dense(3, activation=tf.nn.softmax)
     ])
     model.compile(
-        optimizer= 'sgd',
+        optimizer= 'Adam',
         loss='sparse_categorical_crossentropy',
         metrics=['accuracy']
     )
