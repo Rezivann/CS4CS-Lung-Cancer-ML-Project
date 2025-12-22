@@ -2,7 +2,8 @@ import tensorflow as tf
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from tensorflow.keras import layers
+
+from keras import layers
 import os
 #import plotly.express as px
 
@@ -16,16 +17,16 @@ index = 0
 while True:
     try:
         Name = "Test" + str(index)
-        os.makedirs("C:\\Users\\reziv\\Downloads\\Lung_Cancer_Git\\Logs\\" + Name )
+        os.makedirs("Logs\\" + Name )
     except FileExistsError:
         index += 1
         continue
     break
 
-df = pd.read_csv('C:\\Users\\reziv\\Downloads\\Lung_Cancer_Model\\Processed_set.csv')
+df = pd.read_csv('Datasets\\Processed_set.csv')
 X = df.drop(['Level'], axis=1)
 y = df['Level']
-direct = 'C:\\Users\\reziv\\Downloads\\Lung_Cancer_Git\\Logs\\' + Name
+direct = 'Logs\\' + Name
 nums = []
 def run(run_dir, hparams, num, i):
     with tf.summary.create_file_writer(run_dir).as_default():

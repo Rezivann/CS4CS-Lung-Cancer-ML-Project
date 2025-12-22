@@ -9,7 +9,8 @@ import torch.nn as nn
 
 import os
 
-from pytorch_tabnet import TabNetClassifier
+#from pytorch_tabnet import TabNetClassifier
+from pytorch_tabnet.tab_model import TabNetClassifier
 import torch
 import skorch
 from skorch import NeuralNetClassifier
