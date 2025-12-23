@@ -3,7 +3,7 @@ import tensorflow as tf
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from tensorflow.keras import layers
+from keras import layers
 import os
 
 from tensorboard.plugins.hparams import api as hp
