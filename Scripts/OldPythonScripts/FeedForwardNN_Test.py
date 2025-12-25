@@ -74,6 +74,7 @@ for i in range(10):
 average = sum / 10
 print(sum)
 print(average)
+
 '''
 model = tf.keras.Sequential([
     ##layers.Dense(200, activation= 'relu'),
