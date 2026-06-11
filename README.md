@@ -11,7 +11,7 @@ This project compares three different types of machine learning models for lung 
 Each model was trained on 80% of the data and evaluated on the other 20%. For ten trials, this process was repeated with shuffled data, and final accuracy scores indicate average performance across all 10 trials.
 
 ## Average Accuracies Across 10 Trials
-1. TabNet Classifier: 98.63%
+1. TabNet Classifier: 98.70%
 2. Feedforward Neural Network: 96.55%
 3. Naïve Bayes: 90.55%
 
